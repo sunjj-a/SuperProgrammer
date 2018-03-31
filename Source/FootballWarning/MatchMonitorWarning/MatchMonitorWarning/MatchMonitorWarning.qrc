@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/MatchMonitorWarning">
+        <file>Resources/Status_Play.ico</file>
+        <file>Resources/VoiceInputBundle.ico</file>
+        <file>Resources/HaHaBundle.ico</file>
+        <file>Resources/WarningAudio.wav</file>
+    </qresource>
+</RCC>

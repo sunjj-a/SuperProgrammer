@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <!-- 错误识别设置：‘原始错误字符 -大写字母’被替换为‘期望正确字符’-->
+	<pattern srcChar = "S" dstChar="5"/>
+	<pattern srcChar = "R" dstChar="A"/>
+	<pattern srcChar = "O" dstChar="0"/>
+</root>

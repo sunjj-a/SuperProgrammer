@@ -1,0 +1,25 @@
+<UI version="4.0" >
+ <class>ImageToTextOcrClass</class>
+ <widget class="QDialog" name="ImageToTextOcrClass" >
+  <property name="objectName" >
+   <string notr="true">ImageToTextOcrClass</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>ImageToTextOcr</string>
+  </property>
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources>
+   <include location="ImageToTextOcr.qrc"/>
+ </resources>
+ <connections/>
+</UI>

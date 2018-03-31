@@ -1,0 +1,30 @@
+# Netscape HTTP Cookie File
+Set-Cookie: P00001="911m1Ejk5oG94SAF7T6dok7qeZSAhOcKFC5eyW7K38d6oGem1m3IAshq2Jm1WCZRWHzRka44;";
+
+import requests
+import time
+
+s= requests.session()
+s.cookies.set('P00001','2ex7Flm3iqxFqAWOuPzQqWkYANF9m3gaYTm2Ej5m2m2K61VhFTpv0m2ZVNTyhNjgcdzy4ojcd9')
+result = s.get('http://i.vip.iqiyi.com/order/gvc.action?t=0.434870029613861')
+print s.cookies.get_dict()
+with open('demo.jpg', 'wb') as fd:
+    for chunk in result.iter_content(128):
+        fd.write(chunk)
+print result
+
+urlToke = 'http://apollo.iqiyi.com/get_token?callback=window.Q.__callbacks__.cblzuu47'
+token = s.get(urlToke)
+print s.cookies.get_dict()
+print token.text
+
+a = raw_input("vd:")
+b = int(time.time()*1000)
+c = raw_input("toke:")
+d = int(time.time())
+urlCoding = 'http://www.iqiyi.com/validate?target=/pay/exp_pay.action?expCard=1F39-279D-30FA-65AE&vd=%s&payType=6&platform=b6c13e26323c537d&fr_version=&suiteABTestGroupId=&t=%s&server=036A7038F83161DF6823775AA428F46F&url_src=null&bird_src=fd1dd59399e848e69fb28f5bfe09a33a&server=036A7038F83161DF6823775AA428F46F&token=%s&bird_src=fd1dd59399e848e69fb28f5bfe09a33a&sign=&bird_t=%s&callback=window.Q.__callbacks__.cb998dop'
+urlCoding = urlCoding % (a, b, c, d)
+print urlCoding
+response = s.get(urlCoding)
+print s.cookies.get_dict()
+print response

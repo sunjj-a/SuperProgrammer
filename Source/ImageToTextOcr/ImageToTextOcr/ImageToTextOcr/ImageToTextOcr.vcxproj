@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7B709B4B-1702-41A4-B9DB-773BACE830F3}</ProjectGuid>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_BUILD_XLSX_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.5.1\QtGui;E:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip;E:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;E:\ProgrammerSoft\QT5.5.1\Setup\5.5\msvc2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5Widgetsd.lib;QuaZipd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_BUILD_XLSX_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.5.1\QtGui;E:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip;E:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;E:\ProgrammerSoft\QT5.5.1\Setup\5.5\msvc2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5Widgets.lib;QuaZip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ExtractRecognizedImages.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ImageToTextOcr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RecognizeTextOper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_xlsxdocument.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_ImageToTextOcr.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ImageToTextOcr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RecognizeTextOper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_xlsxdocument.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ImageToTextOcr.cpp" />
+    <ClCompile Include="log\log.cpp" />
+    <ClCompile Include="log\logmemory.cpp" />
+    <ClCompile Include="log\logobserverconsole.cpp" />
+    <ClCompile Include="log\logobserverfile.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="RecognizeSetting.cpp" />
+    <ClCompile Include="RecognizeTextFacade.cpp" />
+    <ClCompile Include="RecognizeTextOper.cpp" />
+    <ClCompile Include="xlsx\xlsxabstractooxmlfile.cpp" />
+    <ClCompile Include="xlsx\xlsxabstractsheet.cpp" />
+    <ClCompile Include="xlsx\xlsxcell.cpp" />
+    <ClCompile Include="xlsx\xlsxcellformula.cpp" />
+    <ClCompile Include="xlsx\xlsxcellrange.cpp" />
+    <ClCompile Include="xlsx\xlsxcellreference.cpp" />
+    <ClCompile Include="xlsx\xlsxchart.cpp" />
+    <ClCompile Include="xlsx\xlsxchartsheet.cpp" />
+    <ClCompile Include="xlsx\xlsxcolor.cpp" />
+    <ClCompile Include="xlsx\xlsxconditionalformatting.cpp" />
+    <ClCompile Include="xlsx\xlsxcontenttypes.cpp" />
+    <ClCompile Include="xlsx\xlsxdatavalidation.cpp" />
+    <ClCompile Include="xlsx\xlsxdocpropsapp.cpp" />
+    <ClCompile Include="xlsx\xlsxdocpropscore.cpp" />
+    <ClCompile Include="xlsx\xlsxdocument.cpp" />
+    <ClCompile Include="xlsx\xlsxdrawing.cpp" />
+    <ClCompile Include="xlsx\xlsxdrawinganchor.cpp" />
+    <ClCompile Include="xlsx\xlsxformat.cpp" />
+    <ClCompile Include="xlsx\xlsxmediafile.cpp" />
+    <ClCompile Include="xlsx\xlsxnumformatparser.cpp" />
+    <ClCompile Include="xlsx\xlsxrelationships.cpp" />
+    <ClCompile Include="xlsx\xlsxrichstring.cpp" />
+    <ClCompile Include="xlsx\xlsxsharedstrings.cpp" />
+    <ClCompile Include="xlsx\xlsxsimpleooxmlfile.cpp" />
+    <ClCompile Include="xlsx\xlsxstyles.cpp" />
+    <ClCompile Include="xlsx\xlsxtheme.cpp" />
+    <ClCompile Include="xlsx\xlsxutility.cpp" />
+    <ClCompile Include="xlsx\xlsxworkbook.cpp" />
+    <ClCompile Include="xlsx\xlsxworksheet.cpp" />
+    <ClCompile Include="xlsx\xlsxzipreader.cpp" />
+    <ClCompile Include="xlsx\xlsxzipwriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ImageToTextOcr.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ImageToTextOcr.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ImageToTextOcr.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB -D_UNICODE  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ImageToTextOcr.ui">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ExtractRecognizedImages.h" />
+    <ClInclude Include="GeneratedFiles\ui_ImageToTextOcr.h" />
+    <ClInclude Include="log\bits.h" />
+    <ClInclude Include="log\export.h" />
+    <ClInclude Include="log\log.h" />
+    <ClInclude Include="log\logmemory.h" />
+    <ClInclude Include="log\logobserver.h" />
+    <ClInclude Include="log\logobserverconsole.h" />
+    <ClInclude Include="log\logobserverfile.h" />
+    <ClInclude Include="RecognizeSetting.h" />
+    <ClInclude Include="RecognizeTextFacade.h" />
+    <ClInclude Include="xlsx\xlsxabstractooxmlfile.h" />
+    <ClInclude Include="xlsx\xlsxabstractooxmlfile_p.h" />
+    <ClInclude Include="xlsx\xlsxabstractsheet.h" />
+    <ClInclude Include="xlsx\xlsxabstractsheet_p.h" />
+    <ClInclude Include="xlsx\xlsxcell.h" />
+    <ClInclude Include="xlsx\xlsxcellformula.h" />
+    <ClInclude Include="xlsx\xlsxcellformula_p.h" />
+    <ClInclude Include="xlsx\xlsxcellrange.h" />
+    <ClInclude Include="xlsx\xlsxcellreference.h" />
+    <ClInclude Include="xlsx\xlsxcell_p.h" />
+    <ClInclude Include="xlsx\xlsxchart.h" />
+    <ClInclude Include="xlsx\xlsxchartsheet.h" />
+    <ClInclude Include="xlsx\xlsxchartsheet_p.h" />
+    <ClInclude Include="xlsx\xlsxchart_p.h" />
+    <ClInclude Include="xlsx\xlsxcolor_p.h" />
+    <ClInclude Include="xlsx\xlsxconditionalformatting.h" />
+    <ClInclude Include="xlsx\xlsxconditionalformatting_p.h" />
+    <ClInclude Include="xlsx\xlsxcontenttypes_p.h" />
+    <ClInclude Include="xlsx\xlsxdatavalidation.h" />
+    <ClInclude Include="xlsx\xlsxdatavalidation_p.h" />
+    <ClInclude Include="xlsx\xlsxdocpropsapp_p.h" />
+    <ClInclude Include="xlsx\xlsxdocpropscore_p.h" />
+    <ClInclude Include="xlsx\xlsxdocument_p.h" />
+    <ClInclude Include="xlsx\xlsxdrawinganchor_p.h" />
+    <ClInclude Include="xlsx\xlsxdrawing_p.h" />
+    <ClInclude Include="xlsx\xlsxformat.h" />
+    <ClInclude Include="xlsx\xlsxformat_p.h" />
+    <ClInclude Include="xlsx\xlsxglobal.h" />
+    <ClInclude Include="xlsx\xlsxmediafile_p.h" />
+    <ClInclude Include="xlsx\xlsxnumformatparser_p.h" />
+    <ClInclude Include="xlsx\xlsxrelationships_p.h" />
+    <ClInclude Include="xlsx\xlsxrichstring.h" />
+    <ClInclude Include="xlsx\xlsxrichstring_p.h" />
+    <ClInclude Include="xlsx\xlsxsharedstrings_p.h" />
+    <ClInclude Include="xlsx\xlsxsimpleooxmlfile_p.h" />
+    <ClInclude Include="xlsx\xlsxstyles_p.h" />
+    <ClInclude Include="xlsx\xlsxtheme_p.h" />
+    <ClInclude Include="xlsx\xlsxutility_p.h" />
+    <ClInclude Include="xlsx\xlsxworkbook.h" />
+    <ClInclude Include="xlsx\xlsxworkbook_p.h" />
+    <ClInclude Include="xlsx\xlsxworksheet.h" />
+    <ClInclude Include="xlsx\xlsxworksheet_p.h" />
+    <ClInclude Include="xlsx\xlsxzipreader_p.h" />
+    <ClInclude Include="xlsx\xlsxzipwriter_p.h" />
+    <CustomBuild Include="xlsx\xlsxdocument.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing xlsxdocument.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing xlsxdocument.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB -D_UNICODE  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+    </CustomBuild>
+    <CustomBuild Include="RecognizeTextOper.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing RecognizeTextOper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing RecognizeTextOper.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_BUILD_XLSX_LIB -D_UNICODE  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui\5.5.1\QtGui" "-IE:\SourceCode\ThirdParty\Quozip\quazip-0.7.3\quazip-0.7.3\quazip" "-IE:\SourceCode\ThirdParty\Quozip\zlib1.2.8\include"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ImageToTextOcr.qrc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ImageToTextOcr.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="0" lupdateOptions="" lreleaseOptions="" Qt5Version_x0020_Win32="QT5.5.1" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
