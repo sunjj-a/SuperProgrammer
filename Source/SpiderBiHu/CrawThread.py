@@ -9,6 +9,8 @@ import requests
 from RandomAgent import randomAgent
 
 SLEEP_TIME = 1
+CHECK_COUNT = 100 #连续100个文章无效，认为非法
+
 module_logger = logging.getLogger("mainModule.sub")
 
 def get_random_ip():
@@ -73,22 +75,21 @@ class CrawThread:
 
     #single thread craw
     def singleCraw(self, urls, datas, callback = None):
-        crawUrlQueue = urls
-        crawDataQueue = datas
-        while True:
-            try:
-                url = crawUrlQueue.pop()
-                data = crawDataQueue.pop()
-            except IndexError:
-                #print 'IndexError'
-                break
-            else:
-                download = Downloader.Downloader(delay=self.delay, retryNums=self.retryNums)
-                result = download.downloadPost(url=url, data=data, proxy=None)
-                if result and callback:
-                    spiderResult = [(data, result.content)]
-                    callback(spiderResult)
-                    time.sleep(SLEEP_TIME)
+        nInvalidPaperCount = 0
+        for nIndex in range(len(urls)):
+            url = urls[nIndex]
+            data = datas[nIndex]
+            download = Downloader.Downloader(delay=self.delay, retryNums=self.retryNums)
+            result = download.downloadPost(url=url, data=data, proxy=None)
+            if result and callback:
+                jsonResult = json.loads(result.content)
+                if jsonResult['res'] == 100004:
+                    nInvalidPaperCount += 1
+                    if nInvalidPaperCount >= CHECK_COUNT:
+                        break
+                else:
+                    nInvalidPaperCount = 0
+                spiderResult = [(data, result.content)]
+                callback(spiderResult)
                 time.sleep(SLEEP_TIME)
-
-        return spiderResult
+            time.sleep(SLEEP_TIME)
