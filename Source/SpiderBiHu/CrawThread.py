@@ -4,25 +4,21 @@ import Downloader
 import threading
 import time
 import json
-
-SLEEP_TIME = 1
-
+import logging
 import requests
 from RandomAgent import randomAgent
 
-import logging
-
+SLEEP_TIME = 1
 module_logger = logging.getLogger("mainModule.sub")
 
 def get_random_ip():
-    #print("正在设置随机代理...")
     proxyUrl = 'http://api.ip.data5u.com/dynamic/get.html?order=2e8bd3b557c089c65fbc15b6301d25c7&sep=3'
     headers = {'User-agent': randomAgent()}
     result = requests.get(url=proxyUrl, timeout=500.0)
     proxies = {'https': 'http://' + result.content.replace('\n', ''),
                'http': 'http://' + result.content.replace('\n', '')}
-    #print("代理设置成功.")
     return proxies
+
 
 class CrawThread:
 
@@ -33,12 +29,12 @@ class CrawThread:
         self.retryNums = retryNums
 
     #multi thread craw
-    def multiCraw(self, urls, datas):
+    def multiCraw(self, urls, datas, callback = None):
         crawUrlQueue = urls
         crawDataQueue = datas
+        threadLock = threading.Lock()
 
 
-        spiderResult = []
         def processCore(proxy):
             while True:
                 try:
@@ -50,10 +46,10 @@ class CrawThread:
                 else:
                     download = Downloader.Downloader(delay=self.delay, proxy=self.proxy, retryNums=self.retryNums)
                     result = download.downloadPost(url=url, data=data, proxy=proxy)
-                    if result:
-                        #print result.text
-                        module_logger.info(result.text)
-                    spiderResult.append(result)
+                    if result and callback:
+                        spiderResult = [(data, result.content)]
+                        callback(spiderResult)
+                        time.sleep(SLEEP_TIME)
                     break
 
         threads = []
@@ -70,33 +66,29 @@ class CrawThread:
                 thread.start()
                 threads.append(thread)
 
-            #for thread in threads:
-            #    thread.join(4.0)
             time.sleep(SLEEP_TIME)
             threads = []
 
         return spiderResult
 
     #single thread craw
-    def singleCraw(self, urls, datas):
+    def singleCraw(self, urls, datas, callback = None):
         crawUrlQueue = urls
         crawDataQueue = datas
-        spiderResult = []
         while True:
             try:
                 url = crawUrlQueue.pop()
                 data = crawDataQueue.pop()
             except IndexError:
-                print 'IndexError'
+                #print 'IndexError'
                 break
             else:
-                proxy = get_random_ip()
-                download = Downloader.Downloader(delay=self.delay, proxy=self.proxy, retryNums=self.retryNums)
-                result = download.downloadPost(url=url, data=data, proxy=proxy)
-                if result:
-                    print result.text
-                spiderResult.append(result)
+                download = Downloader.Downloader(delay=self.delay, retryNums=self.retryNums)
+                result = download.downloadPost(url=url, data=data, proxy=None)
+                if result and callback:
+                    spiderResult = [(data, result.content)]
+                    callback(spiderResult)
+                    time.sleep(SLEEP_TIME)
                 time.sleep(SLEEP_TIME)
-                print 'wait someTime...'
 
         return spiderResult
