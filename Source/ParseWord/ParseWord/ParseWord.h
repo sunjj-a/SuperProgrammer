@@ -18,6 +18,7 @@ private:
 
 private slots:
     void selectFile();
+    void checkReject();
     void beginParse();
 
 private:
@@ -25,6 +26,7 @@ private:
     QLabel* m_pInfo;
     QPushButton* m_pBegin;
     QPushButton* m_pSelect;
+    QPushButton* m_pCheck;
 
     QLineEdit* m_pUserAgeEdt;
     QLabel* m_pUserAgeLbl;

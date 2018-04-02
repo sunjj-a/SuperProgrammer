@@ -238,6 +238,124 @@ void parseWordOper(const QString& sFilePath, int nMinAge, int nMaxAge)
     }
 }
 
+
+void parseCheckResult(const QString& sFilePath)
+{
+    QFile oReadFile(sFilePath);  
+    if (!oReadFile.open(QIODevice::ReadOnly | QIODevice::Text))  
+        return;  
+
+    std::vector<QString> oLinesVector;
+    QTextStream oReadTextStream(&oReadFile);  
+    QString line = oReadTextStream.readLine().trimmed();  
+    while (!line.isNull()) {  
+        qDebug() << line;  
+        if (!line.isEmpty())
+            oLinesVector.push_back(line);
+
+        line = oReadTextStream.readLine();  
+    }  
+
+    std::vector<UserInfo> oUserInfo;
+    for (auto pIter = oLinesVector.begin(); pIter != oLinesVector.end(); ++pIter)
+    {
+        QString sLine = *pIter;
+        if (sLine.isEmpty())
+            continue;
+
+        bool bOk;
+        sLine.toLongLong(&bOk);
+        //手机号
+        if (bOk && sLine.size() == 11)
+        {
+            //姓名
+            auto pNameNext = pIter;
+            ++pNameNext;
+            if (pNameNext != oLinesVector.end())
+            {
+                UserInfo user;
+                QString sName = *pNameNext;
+                if (sName.contains(QRegExp("[\\x4e00-\\x9fa5]+")))
+                {
+                    user.sNum = sLine;
+                    user.sName = sName;
+
+                    //身份证
+                    auto pCardNext = pIter;
+                    --pCardNext;
+                    if (pCardNext != oLinesVector.end())
+                    {
+                        QString sCard = *pCardNext;
+                        bool bOk = false;
+                        sCard.toLongLong(&bOk);
+
+                        bool bLastWithX = sCard.endsWith("x", Qt::CaseInsensitive);
+                        if ((bOk || bLastWithX) && sCard.size() >= 18)
+                        {
+                            user.sCrad = sCard;
+
+                            bool bRejected = false; //拒绝
+                            auto pRejectIter = pIter;
+                            ++pRejectIter;
+                            ++pRejectIter;
+                            for (int nIndex = 0; nIndex < 4; ++nIndex)
+                            {
+                                if (pRejectIter != oLinesVector.end() && (*pRejectIter).contains(QStringLiteral("拒绝")))
+                                {
+                                    bRejected = true;
+                                    break;
+                                } 
+                                else
+                                {
+                                    ++pRejectIter;
+                                }
+                            }
+
+                            //没有被拒绝的不加入
+                            if (!bRejected)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
+                    oUserInfo.push_back(user);
+                }
+//                 else
+//                 {
+//                     user.sNum = sLine;
+//                     oUserInfo.push_back(user);
+//                 }
+            }
+        }
+    }
+
+
+    {
+        QFileInfo oFileInfo(sFilePath);
+        QDir oFileDir(sFilePath);
+        QString sNewFileName = oFileInfo.baseName() + QStringLiteral("-(审批拒绝)");
+        QString sNewFile = oFileInfo.absolutePath() + "//" +sNewFileName + ".xlsx";
+
+        QXlsx::Document oDocument(sNewFile);
+        oDocument.setColumnWidth(1, 20);
+        oDocument.setColumnWidth(2, 12);
+        oDocument.setColumnWidth(3, 26);
+
+        int nUserCount = 1;
+        for (size_t nIndex = 0; nIndex < oUserInfo.size(); ++nIndex)
+        {
+            UserInfo user = oUserInfo.at(nIndex);
+            oDocument.write(nUserCount, 1, user.sNum);
+            oDocument.write(nUserCount, 2, user.sName);
+            oDocument.write(nUserCount, 3, user.sCrad);
+            ++nUserCount;
+        }
+
+        oDocument.save();
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -257,12 +375,18 @@ ParseWord::ParseWord(QWidget *parent)
     m_pFileEdit = new QLineEdit;
     m_pSelect = new QPushButton(QStringLiteral("选择文件"));
     m_pBegin = new QPushButton(QStringLiteral("信息提取"));
+    m_pCheck = new QPushButton(QStringLiteral("提取未通过用户"));
 
     m_pUserAgeLbl = new QLabel(QStringLiteral("年龄范围："));
     m_pUserAgeEdt = new QLineEdit();
 
+    m_pBegin->setVisible(false);
+    m_pUserAgeLbl->setVisible(false);
+    m_pUserAgeEdt->setVisible(false);
+
     connect(m_pSelect, SIGNAL(clicked()), this, SLOT(selectFile()));
     connect(m_pBegin, SIGNAL(clicked()), this, SLOT(beginParse()));
+    connect(m_pCheck, SIGNAL(clicked()), this, SLOT(checkReject()));
 
     QVBoxLayout* pMain = new QVBoxLayout;
     QHBoxLayout* pTopHBox = new QHBoxLayout;
@@ -270,6 +394,7 @@ ParseWord::ParseWord(QWidget *parent)
     pTopHBox->addWidget(m_pFileEdit);
     pTopHBox->addWidget(m_pSelect);
     pTopHBox->addWidget(m_pBegin);
+    pTopHBox->addWidget(m_pCheck);
     
     QHBoxLayout* pBottomHBox = new QHBoxLayout;
     pBottomHBox->addWidget(m_pUserAgeLbl);
@@ -320,5 +445,12 @@ void ParseWord::beginParse()
     }
 
     parseWordOper(sFile, nMinAge, nMaxAge);
+    QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("提取成功"));
+}
+
+void ParseWord::checkReject()
+{
+    QString sFile = m_pFileEdit->text();
+    parseCheckResult(sFile);
     QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("提取成功"));
 }
