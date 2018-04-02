@@ -106,6 +106,12 @@ void ImageToTextOcr::recognizedText()
         oRecognizedExcels.append(sRecognizedFile);
     }
 
+    //特殊处理，验证用，不支持2个以上文件验证！！！
+    if (oRecognizedExcels.size() > 2)
+    {
+        return;
+    }
+
     m_pProgressBar->setVisible(true);
     RecognizeTextFacade oRecognizeText;
     oRecognizeText.setRegognizeBar(m_pProgressBar);

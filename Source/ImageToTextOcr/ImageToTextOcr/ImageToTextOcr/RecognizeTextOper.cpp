@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QMap>
 #include <QRegExp>
+#include <QTime>
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -26,7 +27,9 @@
 #define IMAGE_FILE_EXT "png"            //图片资源后缀
 #define TIME_STAMP QDateTime::currentDateTime().toTime_t() //当前时间戳
 #define RECOGNIZE_OK "ok"               //识别成功
-#define SEPERATE_COUNT 3                //分隔符数量
+#define SEPERATE_COUNT 4                //分隔符数量
+#define ACTIVE_COUNT 4                  //激活码的数量
+#define CODE_COUNT 16                   //有效字符数量
 
 //////////////////////////////////////////////////////////////////////////
 //构造函数
@@ -78,11 +81,15 @@ QString RecognizeTextOper::recognizeText(const QString& sImageFile)
     QString sParam = QString("app_id=%1&time_stamp=%2&nonce_str=%3&sign=%4&image=%5")
         .arg(nAppId).arg(nTimeStamp).arg(sNonce).arg(sSinge).arg(sImage);
    
+    //QTime oTime;
+    //oTime.start();
+
     QEventLoop oEventLoop;
     QNetworkReply* pReply = m_pAccessManager->post(*m_pRequest, sParam.toUtf8());
     connect(pReply, SIGNAL(finished()), &oEventLoop, SLOT(quit()));
     oEventLoop.exec();
 
+    //qDebug() << "Use Time:" << oTime.elapsed();
     return m_sRecognizeCode;
 }
 
@@ -90,28 +97,22 @@ QString RecognizeTextOper::recognizeText(const QString& sImageFile)
 //请求结束后处理
 void RecognizeTextOper::requestFinished(QNetworkReply *pReply)
 {
-//     QString sErrorType = "pReply->error(): " + QString::number(pReply->error());
-//     LOG_INFO(sErrorType.toStdWString().c_str());
-// 
-//     QString sErrorString = "pReply->errorString():" + pReply->errorString();
-//     LOG_INFO(sErrorString.toStdWString().c_str());
-
     if (pReply->error() == QNetworkReply::NoError)
     {
         QJsonParseError oError;
         QJsonDocument oDocument = QJsonDocument::fromJson(QString(pReply->readAll()).toUtf8(), &oError);
         if ((oError.error == QJsonParseError::NoError) && !oDocument.isEmpty() && oDocument.isObject())
         {
-//             int nReturn = oDocument.object().value("ret").toInt();
-//             QString sReturn = "URL_Return:" + QString::number(nReturn);
-//             LOG_INFO(sReturn.toStdWString().c_str());
-//             QString sURLMsg = "URL_Msg:" + sMsg;
-//             LOG_INFO(sURLMsg.toStdWString().c_str());
-
             QString sMsg = oDocument.object().value("msg").toString();
             if (sMsg == RECOGNIZE_OK)
             {
                 QStringList oRecognizeList = getRecognizeList(&oDocument);
+//                 QString sResult = "";
+//                 for (auto pIter = oRecognizeList.begin(); pIter != oRecognizeList.end(); ++pIter)
+//                 {
+//                     sResult = sResult + "_____" + *pIter;
+//                 }
+//                 qDebug() << "Recognize result:" << sResult;
                 QString sActiveCode = recognizeActiveCode(oRecognizeList);
                 m_sRecognizeCode = repairActiveCode(sActiveCode);
             }
@@ -146,9 +147,29 @@ QString RecognizeTextOper::recognizeActiveCode(const QStringList& oRecognizeList
     for (auto pIter = oRecognizeList.begin(); pIter != oRecognizeList.end(); ++pIter)
     {
         QString sCurString = *pIter;
-        if (sCurString.count("-") == SEPERATE_COUNT)
+        QString sValidCode = "";
+        for (int nIndex = 0; nIndex < sCurString.size(); ++nIndex)
         {
-            sActiveCode = sCurString;
+            QChar oChar = sCurString.at(nIndex);
+            ushort nShort = oChar.unicode();  
+            if(nShort >= 0x4E00 && nShort <= 0x9FA5)  
+            {
+                //排除汉字
+                continue;
+            }
+
+            if (oChar.isLetterOrNumber() || oChar == "-")
+            {
+                sValidCode += oChar;
+            }
+        }
+
+        if (sValidCode.size() >= CODE_COUNT)
+        {
+            sActiveCode = sValidCode;
+            sActiveCode.toUpper();
+            sActiveCode.trimmed();
+            sActiveCode.replace(" ", "");
             break;
         }
     }
@@ -160,19 +181,56 @@ QString RecognizeTextOper::recognizeActiveCode(const QStringList& oRecognizeList
 QString RecognizeTextOper::repairActiveCode(const QString& oActiveCode)
 {
     QString sActiveCode = oActiveCode;
-    sActiveCode.toUpper();
-    sActiveCode.trimmed();
-    sActiveCode.replace(" ", "");
-
-    QRegExp oRegExp("([0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4})");
-    int nPosition = oRegExp.indexIn(sActiveCode);
-    if (nPosition < 0)
+    if (sActiveCode.isEmpty())
     {
         assert(false);
-        return sActiveCode;
+        return QString();
     }
 
-    sActiveCode = oRegExp.cap(0);
+    //修复1. 删除无效的横线"-"
+    QStringList oNewCodeList;
+    QStringList oOldCodeList = sActiveCode.split("-");
+    for (int nIndex = 0; nIndex < oOldCodeList.size(); ++nIndex)
+    {
+        QString sCode = oOldCodeList.at(nIndex);
+        if (sCode.isEmpty())
+            continue;
+        oNewCodeList.push_back(sCode);
+    }
+    
+    if (oNewCodeList.size() != SEPERATE_COUNT)
+    {
+        assert(false);
+        return QString();
+    }
+
+    //修复2. 删除无效的横线收尾字符
+    QStringList oActiveCodeList;
+    for (int nIndex = 0; nIndex < SEPERATE_COUNT; ++nIndex)
+    {
+        QString sCode = oNewCodeList.at(nIndex);
+        if (nIndex == 0)
+        {
+            //首元素
+            if (sCode.size() > ACTIVE_COUNT)
+                sCode = sCode.right(ACTIVE_COUNT);
+        }
+        else if (nIndex == ACTIVE_COUNT - 1)
+        {
+            //尾元素
+            if (sCode.size() > ACTIVE_COUNT)
+                sCode = sCode.left(ACTIVE_COUNT);
+        }
+        oActiveCodeList.push_back(sCode);
+    }
+
+    if (oActiveCodeList.size() != SEPERATE_COUNT)
+    {
+        assert(false);
+        return QString();
+    }
+
+    sActiveCode = oActiveCodeList.join("-");
     for (int nIndex = 0; nIndex < sActiveCode.size(); ++nIndex)
     {
         QChar oChar = sActiveCode.at(nIndex);

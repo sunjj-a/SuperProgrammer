@@ -33,6 +33,12 @@ void RecognizeTextFacade::autoRecognizeText(const QStringList& sRecognizeExcels)
         QString sImagePath = QFileInfo(oRegonizedImages.at(0)).absolutePath();
         int nStartIndex = oRegonizedImages.size() / 2;
 
+        //特殊处理，验证用，不支持300多个图片验证！！！
+        if (nStartIndex > 300)
+        {
+            return;
+        }
+
         m_pProgressBar->setMinimum(0);
         m_pProgressBar->setMaximum(nStartIndex);
 
@@ -42,6 +48,7 @@ void RecognizeTextFacade::autoRecognizeText(const QStringList& sRecognizeExcels)
         for (int nIndex = nStartIndex, nValue = 0; nIndex < oRegonizedImages.size(); ++nIndex, ++nValue)
         {
             QString sRecogninzedImage = sImagePath + QString("/image%1.png").arg(nIndex + 1);
+            //qDebug() << "ImageName:" << sRecogninzedImage;
             oRecognizedList.append(pRecognizeOper->recognizeText(sRecogninzedImage));
             m_pProgressBar->setValue(nValue);
             m_pProgressBar->setFormat(QStringLiteral("文件%1/%2：识别激活码中...").arg(nRecognizeIndex + 1).arg(nRecognizeExecelCount));
