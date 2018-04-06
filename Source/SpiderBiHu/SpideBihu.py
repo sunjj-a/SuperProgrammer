@@ -5,7 +5,7 @@ import json
 import time
 import logging
 
-SPIDERCOUNT = 7000 #默认爬取7000+数据
+SPIDERCOUNT = 175500 #默认爬取7000+数据
 RESULTCOUNT = 100
 
 def timeToStr(timeStamp):
@@ -66,21 +66,37 @@ def maxTitleId():
     connect.close()
     return maxId
 
+def spideredPaperIDs():
+    spideredIDs = set()
+    connect = sqlite3.connect('SpideBihu.db')
+    cursor = connect.cursor()
+    cursor = connect.execute('SELECT paperId FROM BiHuInfo')
+    userDatas = cursor.fetchall()
+    for nIndex in range(len(userDatas)):
+        spideredIDs.add(userDatas[nIndex][0])
+    return spideredIDs
 
 def spiderPaper():
     baseUrl = 'https://be02.bihu.com/bihube-pc/api/content/show/getArticle'
-    maxId = maxTitleId()
+    #maxId = maxTitleId()
+    maxId = 1
     urlCount = maxId + SPIDERCOUNT
     urls = []
     datas = []
-    for index in range(maxId, urlCount + 1, 1):
+
+    spideredIDs = spideredPaperIDs()
+    for index in range(urlCount + 1, maxId, -1):
+        if index in spideredIDs:
+            print "not in"
+            continue
         data = {'artId':index}
         urls.append(baseUrl)
         datas.append(data)
+        print index, data
 
     crawTread = CrawThread.CrawThread(threadNums = 4, delay = 6, proxy = None, retryNums = 12)
-    #crawTread.multiCraw(urls=urls, datas=datas, callback=callback)
-    crawTread.singleCraw(urls=urls, datas=datas, callback=callback)
+    crawTread.multiCraw(urls=urls, datas=datas, callback=callback)
+    #crawTread.singleCraw(urls=urls, datas=datas, callback=callback)
 
 
 if __name__ == '__main__':

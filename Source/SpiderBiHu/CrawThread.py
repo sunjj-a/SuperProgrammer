@@ -34,8 +34,6 @@ class CrawThread:
     def multiCraw(self, urls, datas, callback = None):
         crawUrlQueue = urls
         crawDataQueue = datas
-        threadLock = threading.Lock()
-
 
         def processCore(proxy):
             while True:
@@ -71,7 +69,6 @@ class CrawThread:
             time.sleep(SLEEP_TIME)
             threads = []
 
-        return spiderResult
 
     #single thread craw
     def singleCraw(self, urls, datas, callback = None):

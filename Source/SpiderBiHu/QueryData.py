@@ -5,6 +5,7 @@ import os
 import time
 import sqlite3
 from openpyxl import Workbook
+from openpyxl import utils
 
 def translateTime(userTime):
     timeArray = time.strptime(userTime, "%Y-%m-%d %H:%M:%S")
@@ -35,16 +36,22 @@ def queryUserData(startTime, endTime):
     userDatas = cursor.fetchall()
 
     for nIndex in range(len(userDatas)):
-        workSheet["A%d" % (nIndex + 2)] = userDatas[nIndex][1]
-        workSheet["B%d" % (nIndex + 2)] = "https://www.bihu.com/article/" + str(userDatas[nIndex][2])
-        workSheet["C%d" % (nIndex + 2)] = userDatas[nIndex][3]
-        workSheet["D%d" % (nIndex + 2)] = "https://www.bihu.com/people/" + str(userDatas[nIndex][4])
-        workSheet["E%d" % (nIndex + 2)] = userDatas[nIndex][6]
-        workSheet["F%d" % (nIndex + 2)] = userDatas[nIndex][7]
-        workSheet["G%d" % (nIndex + 2)] = userDatas[nIndex][8]
-        workSheet["H%d" % (nIndex + 2)] = userDatas[nIndex][9]
-        workSheet["I%d" % (nIndex + 2)] = userDatas[nIndex][10]
-        workSheet["J%d" % (nIndex + 2)] = userDatas[nIndex][11]
+        try:
+            print userDatas[nIndex]
+            workSheet["A%d" % (nIndex + 2)] = userDatas[nIndex][1]
+        except utils.exceptions.IllegalCharacterError:
+            workSheet["A%d" % (nIndex + 2)] = ''
+        else:
+            workSheet["B%d" % (nIndex + 2)] = "https://www.bihu.com/article/" + str(userDatas[nIndex][2])
+            workSheet["C%d" % (nIndex + 2)] = userDatas[nIndex][3]
+            workSheet["D%d" % (nIndex + 2)] = "https://www.bihu.com/people/" + str(userDatas[nIndex][4])
+            workSheet["E%d" % (nIndex + 2)] = userDatas[nIndex][6]
+            workSheet["F%d" % (nIndex + 2)] = userDatas[nIndex][7]
+            workSheet["G%d" % (nIndex + 2)] = userDatas[nIndex][8]
+            workSheet["H%d" % (nIndex + 2)] = userDatas[nIndex][9]
+            workSheet["I%d" % (nIndex + 2)] = userDatas[nIndex][10]
+            workSheet["J%d" % (nIndex + 2)] = userDatas[nIndex][11]
+
 
     newExcel.save(u"查询结果.xlsx")
     connect.close()
