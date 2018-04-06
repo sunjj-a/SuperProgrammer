@@ -18,16 +18,19 @@ def unInitDriver(driver):
     print "uninitialise web driver..."
     driver.quit()
 
+
 nCount = 1
 
 def voteBlog(driver, url, userName, password):
-    driver.get(url)
-    #time.sleep(random.choice(range(50, 60)))
-    time.sleep(random.choice(range(45, 55)))
-    driver.find_element_by_link_text("收藏").click()
-
-
     try:
+        driver.get(url)
+
+        #针对异常页面（文章删除/账号异常）强制校验
+        driver.find_element_by_partial_link_text("转载")
+
+        time.sleep(random.choice(range(45, 55)))
+        driver.find_element_by_link_text("收藏").click()
+
         print "loging sina blog..."
         time.sleep(random.choice(range(5, 10)))
         driver.find_element_by_id("login_name_d").send_keys(userName)
@@ -38,9 +41,13 @@ def voteBlog(driver, url, userName, password):
         #return
 
     time.sleep(random.choice(range(5, 10)))
+
+
     driver.save_screenshot('E:\\' + str(nCount) + '.png')
     global nCount
     nCount += 1
+
+
 
 def loadUserData():
     config = ConfigParser.ConfigParser()
