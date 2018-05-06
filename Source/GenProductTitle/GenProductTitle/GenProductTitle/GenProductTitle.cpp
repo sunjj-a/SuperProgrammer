@@ -9,29 +9,41 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QMessageBox>
 
 GenProductTitle::GenProductTitle(QWidget *parent)
     : QDialog(parent)
 {
     //ui.setupUi(this);
+    m_pMaxCountLbl = new QLabel(QStringLiteral("标语数量："));
+    m_pMaxCountEdt = new QLineEdit();
 
     m_pSelectLbl = new QLabel(QStringLiteral("原始文件："));
     m_pHintInfoEdit = new QLineEdit();
     m_pSelFileBtn = new QPushButton(QStringLiteral("选择文件"));
     m_pAutoGenBtn = new QPushButton(QStringLiteral("生成标题"));
 
-    QHBoxLayout* pHBox = new QHBoxLayout;
-    pHBox->addWidget(m_pSelectLbl);
-    pHBox->addWidget(m_pHintInfoEdit);
-    pHBox->addWidget(m_pSelFileBtn);
-    pHBox->addWidget(m_pAutoGenBtn);
-    setLayout(pHBox);
+    QHBoxLayout* pHBox1 = new QHBoxLayout;
+    pHBox1->addWidget(m_pMaxCountLbl);
+    pHBox1->addWidget(m_pMaxCountEdt);
+    pHBox1->addStretch();
+
+    QHBoxLayout* pHBox2 = new QHBoxLayout;
+    pHBox2->addWidget(m_pSelectLbl);
+    pHBox2->addWidget(m_pHintInfoEdit);
+    pHBox2->addWidget(m_pSelFileBtn);
+    pHBox2->addWidget(m_pAutoGenBtn);
+
+    QVBoxLayout* pVMainBox = new QVBoxLayout;
+    pVMainBox->addLayout(pHBox1);
+    pVMainBox->addLayout(pHBox2);
+    setLayout(pVMainBox);
 
     connect(m_pSelFileBtn, SIGNAL(clicked()), this, SLOT(selSourceFile()));
     connect(m_pAutoGenBtn, SIGNAL(clicked()), this, SLOT(autoGenTitle()));
 
-    resize(600, 60);
+    resize(600, 120);
     setWindowTitle(QStringLiteral("自动生成标题-小魏专用软件"));
 }
 
@@ -49,31 +61,69 @@ void GenProductTitle::selSourceFile()
 
 void GenProductTitle::autoGenTitle()
 {
-    QString sFilePath = m_pHintInfoEdit->text();
-    SourceWords oSourceWords;
-
-    QXlsx::Document oDocument(sFilePath);
-    oDocument.selectSheet("Sheet1");
-    int nRowCount = oDocument.dimension().rowCount();
-    for (int nIndex = 0, nRowIndex = 0; nRowIndex < nRowCount; ++nRowIndex)
+    bool bSuccess = true;
+    int nMaxMatchCount = m_pMaxCountEdt->text().toInt(&bSuccess);
+    if (!bSuccess)
     {
-        QString sProductTitle = oDocument.read(nRowIndex + 1, 1).toString();
-        if (!sProductTitle.trimmed().isEmpty())
+        QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("请输入有效的最大标语数量 ^_^"));
+        return;
+    }
+
+    QXlsx::Document oDocument(m_pHintInfoEdit->text());
+    oDocument.setColumnWidth(3, 50);
+    oDocument.setColumnWidth(4, 18);
+    QStringList oSheetList = oDocument.sheetNames();
+
+    if (oSheetList.size() > 3)
+    {
+        QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("使用受限：请联系猪八戒网 Super程序猿 ^_^"));
+        return;
+    }
+
+    static int nUseCount = 0;
+    ++nUseCount;
+    if (nUseCount > 3)
+    {
+        QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("使用受限：请联系猪八戒网 Super程序猿 ^_^"));
+        return;
+    }
+
+    for (int nSheetIndex = 0; nSheetIndex < oSheetList.size(); ++nSheetIndex)
+    {
+        SourceWords oSourceWords;
+        oDocument.selectSheet(oSheetList.at(nSheetIndex));
+        int nRowCount = oDocument.dimension().rowCount();
+        int nStartIndex = 1;
+        for (int nRowIndex = 0; nRowIndex < nRowCount; ++nRowIndex)
         {
-            nIndex += 1;
-            oSourceWords.push_back(std::make_pair(nIndex, sProductTitle));
+            QString sProductTitle = oDocument.read(nRowIndex + 1, 1).toString();
+            if (!sProductTitle.trimmed().isEmpty())
+            {
+                qDebug() << sProductTitle;
+                oSourceWords.push_back(std::make_pair(nStartIndex++, sProductTitle));
+            }
+        }
+
+        std::shared_ptr<GenUniqueTitleResult> oGenUniqueTitleResult = AutoGenUniqueTitle().autoGenTitle(nMaxMatchCount, oSourceWords);
+        std::shared_ptr<GenTitleContainer> pGenTitleContainer = oGenUniqueTitleResult->pGenTitleContainer;
+        std::shared_ptr<UnMatchWordContainer> pUnMatchWordContainer = oGenUniqueTitleResult->pUnMatchWordContainer;
+
+        nStartIndex = 1;
+        for (auto pIter = pGenTitleContainer->begin(); pIter != pGenTitleContainer->end(); ++pIter)
+        {
+            qDebug() << *pIter;
+            oDocument.write(nStartIndex++, 3, *pIter);
+        }
+
+        nStartIndex = 1;
+        for (auto pIter = pUnMatchWordContainer->begin(); pIter != pUnMatchWordContainer->end(); ++pIter)
+        {
+            qDebug() << *pIter;
+            oDocument.write(nStartIndex++, 4, *pIter);
         }
     }
-    oDocument.setColumnWidth(4, 50);
 
-    int nStartIndex = 1;
-    std::shared_ptr<GenTitleContainer> oGenTitleContainer = AutoGenUniqueTitle().autoGenTitle(oSourceWords);
-    for (auto pIter = oGenTitleContainer->begin(); pIter != oGenTitleContainer->end(); ++pIter)
-    {
-        qDebug() << *pIter;
-        oDocument.write(nStartIndex++, 4, *pIter);
-    }
+    oDocument.selectSheet(oSheetList.at(0));
     oDocument.save();
-
     QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("自动生成标题成功 ^_^"));
 }

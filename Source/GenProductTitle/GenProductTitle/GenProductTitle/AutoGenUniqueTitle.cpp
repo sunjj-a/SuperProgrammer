@@ -7,18 +7,19 @@ AutoGenUniqueTitle::AutoGenUniqueTitle()
     m_pSourceWordContainer = std::make_shared<SourceWordContainer>();
     m_pWordCountContainer = std::make_shared<WordCountContainer>();
     m_pSortedWordContainer = std::make_shared<SortedWordContainer>();
-    m_pGenTitleContainer = std::make_shared<GenTitleContainer>();
+    m_pGenUniqueTitleResult = std::make_shared<GenUniqueTitleResult>();
     m_pSortedIndexContainer = std::make_shared<SortedIndexContainer>();
 }
 
-std::shared_ptr<GenTitleContainer> AutoGenUniqueTitle::autoGenTitle(const SourceWords& oSourceWords)
+std::shared_ptr<GenUniqueTitleResult> AutoGenUniqueTitle::autoGenTitle(int nMaxMatchCount, const SourceWords& oSourceWords)
 {
+    m_pGenUniqueTitleResult->clear();
     initSourceWords(oSourceWords);
     calcWordFrequence();
     sortWordFrequence();
     calcSortedIndex();
-    genUniqueTitle();
-    return m_pGenTitleContainer;
+    genUniqueTitle(nMaxMatchCount);
+    return m_pGenUniqueTitleResult;
 }
 
 void AutoGenUniqueTitle::initSourceWords(const SourceWords& oSourceWords)
@@ -93,9 +94,9 @@ void AutoGenUniqueTitle::calcSortedIndex()
 }
 
 
-void AutoGenUniqueTitle::genUniqueTitle()
+void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
 {
-    m_pGenTitleContainer->clear();
+    m_pGenUniqueTitleResult->clear();
 
     QString sNewKeyWord("");
     for (auto pIter = m_pSortedIndexContainer->begin(); pIter != m_pSortedIndexContainer->end(); ++pIter)
@@ -106,10 +107,17 @@ void AutoGenUniqueTitle::genUniqueTitle()
         if (existedKeyWord(sOldKeyWord))
             continue;
 
+        //超过了最大关键字匹配量
+        if (exceedMaxCount(nMaxMatchCount))
+        {
+            m_pGenUniqueTitleResult->pUnMatchWordContainer->push_back(sOldKeyWord);
+            continue;
+        }
+
         //拼接新的和老的关键字
         if (!concatKeyWords(sNewKeyWord, sOldKeyWord))
         {
-            m_pGenTitleContainer->push_back(sNewKeyWord);
+            m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
             sNewKeyWord = sOldKeyWord;
         }
     }
@@ -118,7 +126,7 @@ void AutoGenUniqueTitle::genUniqueTitle()
 //已生成的标语集合里是否存在已有关键字
 bool AutoGenUniqueTitle::existedKeyWord(const QString& sOldKeyWord)
 {
-    for (auto pIter = m_pGenTitleContainer->begin(); pIter != m_pGenTitleContainer->end(); ++pIter)
+    for (auto pIter = m_pGenUniqueTitleResult->pGenTitleContainer->begin(); pIter != m_pGenUniqueTitleResult->pGenTitleContainer->end(); ++pIter)
     {
         QString sNewKeyWord = *pIter;
         bool bExistedInNewKeyWord = true;
@@ -178,4 +186,9 @@ bool AutoGenUniqueTitle::isValidKeyWord(const QString& sNewKeyWord)
         }
     }  
     return nCharCount <= CHAR_COUNT;
+}
+
+bool AutoGenUniqueTitle::exceedMaxCount(int nMaxMatchCount)
+{
+    return m_pGenUniqueTitleResult->pGenTitleContainer->size() == nMaxMatchCount;
 }

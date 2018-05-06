@@ -23,6 +23,8 @@ private slots:
 
 private:
     //Ui::GenProductTitleClass ui;
+    QLabel* m_pMaxCountLbl;
+    QLineEdit* m_pMaxCountEdt;
 
     QLabel* m_pSelectLbl;
     QPushButton* m_pSelFileBtn, *m_pAutoGenBtn;
