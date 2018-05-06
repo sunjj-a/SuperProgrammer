@@ -29,6 +29,7 @@ void AutoGenUniqueTitle::initSourceWords(const SourceWords& oSourceWords)
         int nIndex = pIter->first;
         QString sSourceWord = pIter->second;
         sSourceWord = sSourceWord.trimmed();
+        sSourceWord = sSourceWord.toLower();
         sSourceWord.replace(" ", "");
         m_pSourceWordContainer->insert(std::make_pair(nIndex, sSourceWord));
     }
@@ -119,6 +120,12 @@ void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
         {
             m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
             sNewKeyWord = sOldKeyWord;
+        }
+
+        //最后一个关键字：匹配成功与否均为合理值
+        if (pIter == m_pSortedIndexContainer->end() - 1)
+        {
+            m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
         }
     }
 }

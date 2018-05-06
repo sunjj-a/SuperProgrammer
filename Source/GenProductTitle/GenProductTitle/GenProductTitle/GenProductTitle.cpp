@@ -18,6 +18,7 @@ GenProductTitle::GenProductTitle(QWidget *parent)
     //ui.setupUi(this);
     m_pMaxCountLbl = new QLabel(QStringLiteral("标语数量："));
     m_pMaxCountEdt = new QLineEdit();
+    m_pMaxCountEdt->setText("6");
 
     m_pSelectLbl = new QLabel(QStringLiteral("原始文件："));
     m_pHintInfoEdit = new QLineEdit();
@@ -43,8 +44,8 @@ GenProductTitle::GenProductTitle(QWidget *parent)
     connect(m_pSelFileBtn, SIGNAL(clicked()), this, SLOT(selSourceFile()));
     connect(m_pAutoGenBtn, SIGNAL(clicked()), this, SLOT(autoGenTitle()));
 
-    resize(600, 120);
-    setWindowTitle(QStringLiteral("自动生成标题-小魏专用软件"));
+    resize(600, 90);
+    setWindowTitle(QStringLiteral("自动生成标题-直通车-小魏专用软件"));
 }
 
 GenProductTitle::~GenProductTitle()
@@ -70,23 +71,7 @@ void GenProductTitle::autoGenTitle()
     }
 
     QXlsx::Document oDocument(m_pHintInfoEdit->text());
-    oDocument.setColumnWidth(3, 50);
-    oDocument.setColumnWidth(4, 18);
     QStringList oSheetList = oDocument.sheetNames();
-
-    if (oSheetList.size() > 3)
-    {
-        QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("使用受限：请联系猪八戒网 Super程序猿 ^_^"));
-        return;
-    }
-
-    static int nUseCount = 0;
-    ++nUseCount;
-    if (nUseCount > 3)
-    {
-        QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("使用受限：请联系猪八戒网 Super程序猿 ^_^"));
-        return;
-    }
 
     for (int nSheetIndex = 0; nSheetIndex < oSheetList.size(); ++nSheetIndex)
     {
@@ -96,13 +81,19 @@ void GenProductTitle::autoGenTitle()
         int nStartIndex = 1;
         for (int nRowIndex = 0; nRowIndex < nRowCount; ++nRowIndex)
         {
-            QString sProductTitle = oDocument.read(nRowIndex + 1, 1).toString();
+            int nCurRowIndex = nRowIndex + 1;
+            oDocument.write(nCurRowIndex, 3, "");
+            oDocument.write(nCurRowIndex, 4, "");
+            QString sProductTitle = oDocument.read(nCurRowIndex, 1).toString();
             if (!sProductTitle.trimmed().isEmpty())
             {
                 qDebug() << sProductTitle;
                 oSourceWords.push_back(std::make_pair(nStartIndex++, sProductTitle));
             }
         }
+
+        oDocument.setColumnWidth(3, 50);
+        oDocument.setColumnWidth(4, 18);
 
         std::shared_ptr<GenUniqueTitleResult> oGenUniqueTitleResult = AutoGenUniqueTitle().autoGenTitle(nMaxMatchCount, oSourceWords);
         std::shared_ptr<GenTitleContainer> pGenTitleContainer = oGenUniqueTitleResult->pGenTitleContainer;
