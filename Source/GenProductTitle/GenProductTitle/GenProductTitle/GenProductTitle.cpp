@@ -62,6 +62,10 @@ void GenProductTitle::selSourceFile()
 
 void GenProductTitle::autoGenTitle()
 {
+    QString sSourceWordsFile = m_pHintInfoEdit->text();
+    if (sSourceWordsFile.isEmpty())
+        return;
+
     bool bSuccess = true;
     int nMaxMatchCount = m_pMaxCountEdt->text().toInt(&bSuccess);
     if (!bSuccess)
@@ -70,7 +74,7 @@ void GenProductTitle::autoGenTitle()
         return;
     }
 
-    QXlsx::Document oDocument(m_pHintInfoEdit->text());
+    QXlsx::Document oDocument(sSourceWordsFile);
     QStringList oSheetList = oDocument.sheetNames();
 
     for (int nSheetIndex = 0; nSheetIndex < oSheetList.size(); ++nSheetIndex)

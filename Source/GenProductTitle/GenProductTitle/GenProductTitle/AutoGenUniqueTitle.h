@@ -59,6 +59,8 @@ private:
     void sortWordFrequence();
     void calcSortedIndex();
     void genUniqueTitle(int nMaxMatchCount);
+    void reCalcMatchWord();
+    void circleReCalcMatch();
 
     bool existedKeyWord(const QString& sOldKeyWord);
     bool concatKeyWords(QString& sNewKeyWord, const QString& sOldKeyWord);

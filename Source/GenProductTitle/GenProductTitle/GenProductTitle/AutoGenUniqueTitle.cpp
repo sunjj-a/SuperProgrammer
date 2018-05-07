@@ -1,6 +1,8 @@
 #include "AutoGenUniqueTitle.h"
+#include <QDebug>
 
 #define CHAR_COUNT 40
+#define CIRCLE_COUNT 3 //默认做三轮遍历
 
 AutoGenUniqueTitle::AutoGenUniqueTitle()
 {
@@ -19,6 +21,7 @@ std::shared_ptr<GenUniqueTitleResult> AutoGenUniqueTitle::autoGenTitle(int nMaxM
     sortWordFrequence();
     calcSortedIndex();
     genUniqueTitle(nMaxMatchCount);
+    reCalcMatchWord();
     return m_pGenUniqueTitleResult;
 }
 
@@ -108,7 +111,7 @@ void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
         if (existedKeyWord(sOldKeyWord))
             continue;
 
-        //超过了最大关键字匹配量
+        //最多关键字匹配量：已经超过最多新标语数量！
         if (exceedMaxCount(nMaxMatchCount))
         {
             m_pGenUniqueTitleResult->pUnMatchWordContainer->push_back(sOldKeyWord);
@@ -120,12 +123,67 @@ void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
         {
             m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
             sNewKeyWord = sOldKeyWord;
+
+            //最多关键字匹配量:刚好等于最多新标语数量！
+            if (exceedMaxCount(nMaxMatchCount))
+            {
+                m_pGenUniqueTitleResult->pUnMatchWordContainer->push_back(sOldKeyWord);
+                continue;
+            }
         }
 
-        //最后一个关键字：匹配成功与否均为合理值
+        //最多关键字匹配量：未超过最多新标语数量！最后一个关键字，配成功与否均为合理值
         if (pIter == m_pSortedIndexContainer->end() - 1)
         {
             m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
+        }
+    }
+}
+
+int keyWordCharSize(const QString& sNewKeyWord)
+{ 
+    int nCharCount = 0;
+    for(int nIndex = 0 ; nIndex < sNewKeyWord.length(); nIndex++)  
+    {  
+        ushort uUnicode = sNewKeyWord.at(nIndex).unicode();
+        if(uUnicode >= 0x4E00 && uUnicode <= 0x9FA5)  
+        {  
+            nCharCount += 2;
+        } 
+        else
+        {
+            nCharCount += 1;
+        }
+    }  
+    return nCharCount;
+}
+
+
+void AutoGenUniqueTitle::reCalcMatchWord()
+{
+    for (int nIndex = 0; nIndex < CIRCLE_COUNT; ++nIndex)
+    {
+        circleReCalcMatch();
+    }
+}
+
+//新的标语在匹配一轮多余的关键字
+void AutoGenUniqueTitle::circleReCalcMatch()
+{
+    std::shared_ptr<GenTitleContainer> pGenTitleContainer = m_pGenUniqueTitleResult->pGenTitleContainer;
+    std::shared_ptr<UnMatchWordContainer> pUnMatchWordContainer = m_pGenUniqueTitleResult->pUnMatchWordContainer;
+    for (auto pGenTitleIter = pGenTitleContainer->begin(); pGenTitleIter != pGenTitleContainer->end(); ++pGenTitleIter)
+    {
+        QString& sNewKeyWord = *pGenTitleIter;
+        for (auto pUnMatchIter = pUnMatchWordContainer->begin(); pUnMatchIter != pUnMatchWordContainer->end(); ++pUnMatchIter)
+        {
+            QString& sOldKeyWord = *pUnMatchIter;
+            if (concatKeyWords(sNewKeyWord, sOldKeyWord))
+            {
+                qDebug() << "Word size: " << keyWordCharSize(sNewKeyWord);
+                pUnMatchWordContainer->erase(pUnMatchIter);
+                break;
+            }
         }
     }
 }
