@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     browser.implicitly_wait(0.5)
 
-    browser.find_element_by_id("kw").send_keys(u"武汉")
+    browser.find_element_by_id("kw").send_keys(u"旅游景点")
 
     browser.find_element_by_id("su").click()
 

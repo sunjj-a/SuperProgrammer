@@ -5,7 +5,7 @@ import json
 import time
 import logging
 
-SPIDERCOUNT = 175500 #默认爬取7000+数据
+SPIDERCOUNT = 190000 #默认爬取10000+数据
 RESULTCOUNT = 100
 
 def timeToStr(timeStamp):
@@ -25,23 +25,12 @@ def callback(spiderResult):
             jsonResult = json.loads(result[1])
             if jsonResult['resMsg'] == 'success':
                 papeInfo = []
-                papeInfo.append(result[0]['artId'])
-                papeInfo.append(jsonResult['data']['title'])
-                papeInfo.append(result[0]['artId'])
-                papeInfo.append(jsonResult['data']['userName'])
-                papeInfo.append(jsonResult['data']['userId'])
-                papeInfo.append(jsonResult['data']['creatime'])
-                papeInfo.append(timeToStr(jsonResult['data']['creatime']))
-                papeInfo.append(jsonResult['data']['boardName'])
                 papeInfo.append(jsonResult['data']['money'])
-                papeInfo.append(jsonResult['data']['ups'])
-                papeInfo.append(jsonResult['data']['downs'])
-                papeInfo.append(jsonResult['data']['cmts'])
                 papeInfo.append(timeToStr(curTimeStamp))
+                papeInfo.append(result[0]['artId'])
                 papeInfos.append(tuple(papeInfo))
 
-        sqlStr = '''INSERT INTO BiHuInfo (paperId, title, paperUrl, userName, userUrl, creatime, creatimeStr, boardName, money, ups, downs, cmts, spiderTime) \
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+        sqlStr = '''UPDATE BiHuInfo SET money = ?, spiderTime = ? WHERE paperId = ?'''
         cursor.executemany(sqlStr, papeInfos)
 
         connect.commit()
@@ -79,20 +68,15 @@ def spideredPaperIDs():
 def spiderPaper():
     baseUrl = 'https://be02.bihu.com/bihube-pc/api/content/show/getArticle'
     #maxId = maxTitleId()
-    maxId = 1
+    maxId = 0
     urlCount = maxId + SPIDERCOUNT
     urls = []
     datas = []
 
-    spideredIDs = spideredPaperIDs()
     for index in range(urlCount + 1, maxId, -1):
-        if index in spideredIDs:
-            print "not in"
-            continue
         data = {'artId':index}
         urls.append(baseUrl)
         datas.append(data)
-        print index, data
 
     crawTread = CrawThread.CrawThread(threadNums = 4, delay = 6, proxy = None, retryNums = 12)
     crawTread.multiCraw(urls=urls, datas=datas, callback=callback)

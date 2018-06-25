@@ -37,7 +37,6 @@ def queryUserData(startTime, endTime):
 
     for nIndex in range(len(userDatas)):
         try:
-            print userDatas[nIndex]
             workSheet["A%d" % (nIndex + 2)] = userDatas[nIndex][1]
         except utils.exceptions.IllegalCharacterError:
             workSheet["A%d" % (nIndex + 2)] = ''

@@ -107,10 +107,6 @@ void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
     {
         QString sOldKeyWord = m_pSourceWordContainer->find(*pIter)->second;
 
-        //新标语集合已经存在该标语
-        if (existedKeyWord(sOldKeyWord))
-            continue;
-
         //最多关键字匹配量：已经超过最多新标语数量！
         if (exceedMaxCount(nMaxMatchCount))
         {
@@ -118,8 +114,8 @@ void AutoGenUniqueTitle::genUniqueTitle(int nMaxMatchCount)
             continue;
         }
 
-        //拼接新的和老的关键字
-        if (!concatKeyWords(sNewKeyWord, sOldKeyWord))
+        //新标语集合已经存在该标语且可以拼接新的和老的关键字
+        if (!existedKeyWord(sOldKeyWord) && !concatKeyWords(sNewKeyWord, sOldKeyWord))
         {
             m_pGenUniqueTitleResult->pGenTitleContainer->push_back(sNewKeyWord);
             sNewKeyWord = sOldKeyWord;
