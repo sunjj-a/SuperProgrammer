@@ -13,7 +13,6 @@ public:
     ~RepoManager();
 
 private:
-    Ui::RepoManagerClass ui;
 };
 
 #endif // REPOMANAGER_H
