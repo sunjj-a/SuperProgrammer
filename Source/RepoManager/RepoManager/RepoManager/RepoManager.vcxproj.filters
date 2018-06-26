@@ -74,6 +74,12 @@
     <ClCompile Include="SSaleRecordEO.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="SCalcRepoService.cpp">
+      <Filter>Source Files\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="SPreSaleEO.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="RepoManager.h">
@@ -100,6 +106,15 @@
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="SSaleRecordEO.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SModelConst.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SCalcRepoService.h">
+      <Filter>Header Files\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="SPreSaleEO.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>

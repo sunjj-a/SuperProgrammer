@@ -10,7 +10,7 @@
 struct SFILEOPER_EXPORT SExcelParams
 {
     QString sExcelFilePath;   //Excel文件路径
-    QString sOpenSheetName;   //打开页签名称
+    int nSheetIndex; //打开的页签索引
     QString sCellRange;       //单元格范围
 };
 

@@ -13,7 +13,7 @@ SXLSFileOper::SXLSFileOper()
 
 SXLSFileOper::~SXLSFileOper()
 {
-    m_pAxObject->dynamicCall("Close()"); 
+    //m_pAxObject->dynamicCall("Close()"); 
     m_pAxObject->dynamicCall("Quit()");
 
     delete m_pAxObject;
@@ -30,7 +30,7 @@ bool SXLSFileOper::readFromFile(const SExcelParams& oExcelParams, SXLSContainer&
         return false;
     }
 
-    QAxObject* pWorkSheet = pWorkBook->querySubObject("WorkSheets(QString)", oExcelParams.sOpenSheetName);
+    QAxObject* pWorkSheet = pWorkBook->querySubObject("WorkSheets(int)", oExcelParams.nSheetIndex);
     if (!pWorkSheet)
     {
         assert(false);
