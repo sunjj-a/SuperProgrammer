@@ -16,8 +16,12 @@ bool SCVSFileOper::readFromFile(const QString& sCVSFile, SCVSContainer& oCVSCont
     QStringList oRecordList = oTextStream.readAll().split("\n");
     for (auto pIter = oRecordList.begin(); pIter != oRecordList.end(); ++pIter)
     {
-        QStringList oRecords = pIter->split(",");
-        oCVSContainer.push_back(oRecords);
+        if (!pIter->isEmpty())
+        {
+            QString sReplaceStr = *pIter;
+            QStringList oRecords = sReplaceStr.replace("\"", "").split(",");
+            oCVSContainer.push_back(oRecords);
+        }
     }
     return true;
 }
