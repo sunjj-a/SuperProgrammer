@@ -125,6 +125,7 @@
     <ClInclude Include="GeneratedFiles\ui_RepoManager.h" />
     <ClInclude Include="SDailyReplenishEO.h" />
     <ClInclude Include="SGoodsStateEO.h" />
+    <ClInclude Include="SModelConst.h" />
     <ClInclude Include="SNetRepoEO.h" />
     <ClInclude Include="SSaleRecordEO.h" />
   </ItemGroup>

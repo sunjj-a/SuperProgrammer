@@ -102,5 +102,8 @@
     <ClInclude Include="SSaleRecordEO.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="SModelConst.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
