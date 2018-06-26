@@ -1,11 +1,13 @@
 #pragma once
 //////////////////////////////////////////////////////////////////////////
+//商品状态实体
 #include <QVector>
 #include <QMap>
 #include <QString>
 #include <QVariantList>
 #include "SModelConst.h"
 
+//单个商品状态信息
 struct SGoodInfo
 {
     QString sMidCalc;
@@ -43,8 +45,11 @@ struct SGoodInfo
     QString s029;
 };
 
+//原始商品状态
 typedef QVariantList SSourceGoods;
+//商品状态集合
 typedef QVector<SGoodInfo*> SGoodRecords;
+//商品编码-在线状态
 typedef QMap<QString, QString> SGoodStates;
 
 class SGoodsStateEO
@@ -53,7 +58,10 @@ public:
     SGoodsStateEO(const SColumnOrders& oColOrders, const SSourceGoods& oSourceInfos);
     ~SGoodsStateEO();
 
+    //计算商品编码-在线状态
     void calcGoodNum(SGoodStates& oGoodStates);
+
+    //返回所有的商品状态信息
     const SGoodRecords* goodRecords() const;
 
 private:

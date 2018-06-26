@@ -72,8 +72,8 @@ void RepoManager::resetSetting()
 {
     m_pSourceDirEdt->clear();
     m_pDestDirEdt->clear();
-    m_pCalcCircleEdt->clear();
-    m_pRemoveNumEdt->clear();
+    m_pCalcCircleEdt->setText("3");
+    m_pRemoveNumEdt->setText("5");
 }
 
 void RepoManager::selSourceDir()

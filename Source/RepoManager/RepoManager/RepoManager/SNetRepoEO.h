@@ -1,11 +1,13 @@
 #pragma once
 //////////////////////////////////////////////////////////////////////////
+//网仓数据实体
 #include <QVector>
 #include <QSet>
 #include <QString>
 #include <QVariantList>
 #include "SModelConst.h"
 
+//单条网仓记录
 struct SNetRepoInfo
 {
     QString s000;
@@ -25,8 +27,11 @@ struct SNetRepoInfo
     QString s014;
 };
 
+//网仓数据集合
 typedef QVector<SNetRepoInfo*> SNetRepoInfos;
+//货主集合
 typedef QSet<QString> SSellerSet;
+//原始网仓数据
 typedef QVariantList SSourceNetRepos;
 
 class SNetRepoEO
@@ -35,6 +40,7 @@ public:
     SNetRepoEO(const SColumnOrders& oColOrders, const SSourceNetRepos& oSourceInfos);
     ~SNetRepoEO();
     
+    //查找指定获取的网仓数据
     void findNetRepoInfo(const SSellerSet& oSellerSet, SNetRepoInfos& oNetRepoInfos) const;
 
 private:
