@@ -95,6 +95,7 @@
     <ClCompile Include="SDailyReplenishEO.cpp" />
     <ClCompile Include="SGoodsStateEO.cpp" />
     <ClCompile Include="SNetRepoEO.cpp" />
+    <ClCompile Include="SPreSaleEO.cpp" />
     <ClCompile Include="SSaleRecordEO.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +130,7 @@
     <ClInclude Include="SGoodsStateEO.h" />
     <ClInclude Include="SModelConst.h" />
     <ClInclude Include="SNetRepoEO.h" />
+    <ClInclude Include="SPreSaleEO.h" />
     <ClInclude Include="SSaleRecordEO.h" />
   </ItemGroup>
   <ItemGroup>

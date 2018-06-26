@@ -124,6 +124,7 @@ void RepoManager::beginCalcRepo()
     SInputContext oInputContext;
     oInputContext.nRemoveCount = nRemoveNum;
     oInputContext.nCalcCircleCount = nCalcCircleCount;
+    oInputContext.sOutputDirPath = sDestDir;
 
     QStringList oFilter;
     oFilter << ("*.xls") << ("*.csv");
@@ -145,11 +146,16 @@ void RepoManager::beginCalcRepo()
         {
             oInputContext.sNetRepoFile = sFilePath;
         }
+        else if (sFileName.contains(QStringLiteral("预售管理表")))
+        {
+            oInputContext.sPreSaleFile = sFilePath;
+        }
     }
 
     if (oInputContext.sGoodsStateFile.isEmpty() ||
         oInputContext.sNetRepoFile.isEmpty() ||
-        oInputContext.sSaleRecordFile.isEmpty())
+        oInputContext.sSaleRecordFile.isEmpty() ||
+        oInputContext.sPreSaleFile.isEmpty())
     {
         hintInfo(QStringLiteral("原始文件缺失"));
         return;
