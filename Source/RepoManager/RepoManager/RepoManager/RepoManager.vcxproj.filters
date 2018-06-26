@@ -74,6 +74,9 @@
     <ClCompile Include="SSaleRecordEO.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="SCalcRepoService.cpp">
+      <Filter>Source Files\Service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="RepoManager.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="SModelConst.h">
       <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SCalcRepoService.h">
+      <Filter>Header Files\Service</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

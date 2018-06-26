@@ -51,7 +51,7 @@ void SNetRepoEO::fillNetRepoInfos(const SColumnOrders& oColOrders, const SSource
         pNetRepoInfo->s005 = oRecords.at(5);
         pNetRepoInfo->s006 = oRecords.at(6);
         pNetRepoInfo->sSellerID  = oRecords.at(7).toInt();
-        pNetRepoInfo->sSellerName = oRecords.at(0);
+        pNetRepoInfo->sSellerName = oRecords.at(8);
         pNetRepoInfo->s009 = oRecords.at(9);
         pNetRepoInfo->s010 = oRecords.at(10);
         pNetRepoInfo->s011 = oRecords.at(11);

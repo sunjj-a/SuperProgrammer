@@ -2,13 +2,12 @@
 #include <assert.h>
 #define COL_COUNT 30
 #define MID_CALC_COUNT 9
-#define UN_EXISTED "-" 
 
 SGoodsStateEO::SGoodsStateEO(const SColumnOrders& oColOrders, const SSourceGoods& oSourceInfos)
-    :m_pGoodRecords(nullptr), m_pGoodStates(nullptr)
+    :m_pGoodRecords(nullptr)
 {
-    m_pGoodStates = new SGoodStates;
     m_pGoodRecords = new SGoodRecords;
+    fillGoodRecords(oColOrders, oSourceInfos);
 }
 
 SGoodsStateEO::~SGoodsStateEO()
@@ -17,23 +16,17 @@ SGoodsStateEO::~SGoodsStateEO()
 
     delete m_pGoodRecords;
     m_pGoodRecords = nullptr;
-    delete m_pGoodStates;
-    m_pGoodStates = nullptr;
 }
 
-QString SGoodsStateEO::findOnlineState(const QString& sGoodNum) const
+void SGoodsStateEO::calcGoodNum(SGoodStates& oGoodStates)
 {
-    return m_pGoodStates->value(sGoodNum, UN_EXISTED);
-}
-
-void SGoodsStateEO::calcGoodNum()
-{
+    oGoodStates.clear();
     for (auto pIter = m_pGoodRecords->begin(); pIter != m_pGoodRecords->end(); ++pIter)
     {
         SGoodInfo* pGoodInfo = *pIter;
         pGoodInfo->sMidCalc = pGoodInfo->sGoodTitle.right(MID_CALC_COUNT);
         pGoodInfo->sGoodNum = subGoodNum(pGoodInfo->sMidCalc);
-        m_pGoodStates->insert(pGoodInfo->sGoodNum, pGoodInfo->sOnlineState);
+        oGoodStates.insert(pGoodInfo->sGoodNum, pGoodInfo->sOnlineState);
     }
 }
 

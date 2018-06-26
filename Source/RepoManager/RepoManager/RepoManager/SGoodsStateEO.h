@@ -53,8 +53,7 @@ public:
     SGoodsStateEO(const SColumnOrders& oColOrders, const SSourceGoods& oSourceInfos);
     ~SGoodsStateEO();
 
-    QString findOnlineState(const QString& sGoodNum) const;
-    void calcGoodNum();
+    void calcGoodNum(SGoodStates& oGoodStates);
     const SGoodRecords* goodRecords() const;
 
 private:
@@ -63,6 +62,5 @@ private:
     QString subGoodNum(const QString& sMidCalc);
 
 private:
-    SGoodStates* m_pGoodStates;
     SGoodRecords* m_pGoodRecords;
 };

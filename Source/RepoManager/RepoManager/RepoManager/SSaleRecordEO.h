@@ -9,8 +9,8 @@ struct SSaleInfo
 {
     QString sOrderNum;
     QString sTitile;
-    double dPrice;
-    int nBuyNum;
+    QString sPrice;
+    QString sBuyNum;
     QString sSystemNum;
     QString sProperty;
     QString sTCInfo;
@@ -22,7 +22,7 @@ struct SSaleInfo
 typedef QVector<QStringList> SSourceInfos;
 typedef QVector<SSaleInfo*> SSaleRecords;
 typedef QSet<QString> SOrderStates;
-typedef QMap<QString, int> SSaleGoods;
+typedef QMap<QString, QString> SSaleGoods;
 
 class SSaleRecordEO
 {

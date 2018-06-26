@@ -42,11 +42,11 @@ void SSaleRecordEO::findSaleInfo(const SOrderStates& oOrderStates, SSaleGoods& o
         auto pFindIter = oSaleGoods.find(pSaleInfo->sSystemNum);
         if (pFindIter != oSaleGoods.end())
         {
-            pFindIter.value() += 1;
+            pFindIter.value() = QString::number(pFindIter.value().toInt() + pSaleInfo->sBuyNum.toInt());
         }
         else
         {
-            oSaleGoods.insert(pSaleInfo->sSystemNum, 1);
+            oSaleGoods.insert(pSaleInfo->sSystemNum, pSaleInfo->sBuyNum);
         }
     }
 }
@@ -66,8 +66,8 @@ void SSaleRecordEO::fillSaleInfos(const SColumnOrders& oColOrders, const SSource
         SSaleInfo* pSaleInfo = new SSaleInfo;
         pSaleInfo->sOrderNum = oRecords.at(0);
         pSaleInfo->sTitile = oRecords.at(1);
-        pSaleInfo->dPrice = oRecords.at(2).toDouble();
-        pSaleInfo->nBuyNum = oRecords.at(3).toInt();
+        pSaleInfo->sPrice = oRecords.at(2);
+        pSaleInfo->sBuyNum = oRecords.at(3);
         pSaleInfo->sSystemNum = oRecords.at(4);
         pSaleInfo->sProperty = oRecords.at(5);
         pSaleInfo->sTCInfo = oRecords.at(6);
