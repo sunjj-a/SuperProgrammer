@@ -64,7 +64,7 @@ bool SCalcRepoService::loadSaleRecord(QString& sErrorInfo)
     }
 
     SColumnOrders oColumnOrders;
-    initColumnOrders(10, oColumnOrders);
+    calcSaleRecordCol(oCVSContainer.first(), oColumnOrders);
     oCVSContainer.removeFirst();
     m_pSaleRecordEO = new SSaleRecordEO(oColumnOrders, oCVSContainer);
     return true;
@@ -84,7 +84,7 @@ bool SCalcRepoService::loadGoodState(QString& sErrorInfo)
     }
 
     SColumnOrders oColumnOrders;
-    initColumnOrders(30, oColumnOrders);
+    calcGoodStateCol(oXLSContainer.first().toStringList(), oColumnOrders);
     oXLSContainer.removeFirst();
     m_pGoodsStateEO = new SGoodsStateEO(oColumnOrders, oXLSContainer);
     return true;
@@ -96,7 +96,7 @@ bool SCalcRepoService::loadNetRepo(QString& sErrorInfo)
     SExcelParams oExcelParams;
     oExcelParams.sExcelFilePath = m_pInputContext->sNetRepoFile;
     oExcelParams.nSheetIndex = FIRST_SHEET;
-    oExcelParams.sCellRange = "A4:O";
+    oExcelParams.sCellRange = "A1:O";
     if (!m_pXLSFileOper->readFromFile(oExcelParams, oXLSContainer))
     {
         sErrorInfo += QStringLiteral("网仓记录文件打开失败\n");
@@ -104,7 +104,7 @@ bool SCalcRepoService::loadNetRepo(QString& sErrorInfo)
     }
 
     SColumnOrders oColumnOrders;
-    initColumnOrders(15, oColumnOrders);
+    calcNetRepoCol(oXLSContainer.first().toStringList(), oColumnOrders);
     oXLSContainer.removeFirst();
     m_pNetRepoEO = new SNetRepoEO(oColumnOrders, oXLSContainer);
     return true;
@@ -278,4 +278,95 @@ void SCalcRepoService::freeRecordsEO()
     freeAndNull(m_pGoodsStateEO);
     freeAndNull(m_pDailyReplenishEO);
     freeAndNull(m_pPreSaleEO);
+}
+
+void SCalcRepoService::calcSaleRecordCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders)
+{
+   oColumnOrders.clear();
+   QVector<QString> oColNames;
+   for (auto pIter = oSourceCol.begin(); pIter != oSourceCol.end(); ++pIter)
+   {
+       QString sColName = *pIter;
+       oColNames.push_back(sColName.trimmed());
+   }
+
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("订单编号")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("标题")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("价格")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("购买数量")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("外部系统编号")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品属性")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("套餐信息")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("备注")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("订单状态")));
+   oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商家编码")));
+}
+
+void SCalcRepoService::calcGoodStateCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders)
+{
+    oColumnOrders.clear();
+    QVector<QString> oColNames;
+    for (auto pIter = oSourceCol.begin(); pIter != oSourceCol.end(); ++pIter)
+    {
+        QString sColName = *pIter;
+        oColNames.push_back(sColName.trimmed());
+    }
+
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("所属终端")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品id")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品标题")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品在线状态")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品链接")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("浏览量")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("访客数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("平均停留时长")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("详情页跳出率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("下单转化率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("下单支付转化率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("支付转化率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("下单金额")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("下单商品件数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("下单买家数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("支付金额")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("支付商品件数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("加购件数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("访客平均价值")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("点击次数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("点击率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("曝光量")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("收藏人数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("搜索引导支付买家数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("客单价")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("搜索支付转化率")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("搜索引导访客数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("支付买家数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("售中售后成功退款金额")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("售中售后成功退款笔数")));
+}
+
+void SCalcRepoService::calcNetRepoCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders)
+{
+    oColumnOrders.clear();
+    QVector<QString> oColNames;
+    for (auto pIter = oSourceCol.begin(); pIter != oSourceCol.end(); ++pIter)
+    {
+        QString sColName = *pIter;
+        oColNames.push_back(sColName.trimmed());
+    }
+
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("库位中数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("条码")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品编码")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("可用数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("可分配数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("锁定数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("不合格数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("货主Id")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("货主")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品名称")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("规格编码")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("规格")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("导出排序ukid")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("最小单位库存数")));
+    oColumnOrders.push_back(oColNames.indexOf(QStringLiteral("商品品类")));
 }

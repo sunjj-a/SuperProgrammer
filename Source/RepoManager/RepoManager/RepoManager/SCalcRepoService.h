@@ -45,6 +45,12 @@ private:
     void initColumnOrders(int nColCount, SColumnOrders& oColumnOrders);
     void freeRecordsEO();
 
+
+private:
+    void calcSaleRecordCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders);
+    void calcGoodStateCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders);
+    void calcNetRepoCol(const QStringList& oSourceCol, SColumnOrders& oColumnOrders);
+
 private:
     const SInputContext* m_pInputContext;
 
