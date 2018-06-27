@@ -21,7 +21,7 @@ SDailyReplenishEO::~SDailyReplenishEO()
 
 bool compareRemoveNum(SProductState* pFirstProduct, SProductState* pSecondProduct)
 {
-    return pFirstProduct->sRemoveNum.toInt() < pSecondProduct->sRemoveNum.toInt();
+    return pFirstProduct->sRemoveNum.toInt() > pSecondProduct->sRemoveNum.toInt();
 }
 
 void SDailyReplenishEO::calcDailyRepenish(const ReplenishContext& oReplenishContext)
@@ -39,6 +39,7 @@ void SDailyReplenishEO::calcDailyRepenish(const ReplenishContext& oReplenishCont
         pProductState->sSaleNum = calcSaleCount(pProductState->sBarCode);
         pProductState->sRequireNum = calcRequireCount(pProductState->sSaleNum, oReplenishContext.nCalcCircleCount);
         pProductState->sRemoveNum = calcRemoveCount(pProductState, oReplenishContext.nRemoveCount);
+        pProductState->sShortNum = calcShortCount(pProductState);
         m_pProductStates->push_back(pProductState);
     }
     qSort(m_pProductStates->begin(), m_pProductStates->end(), compareRemoveNum);
@@ -97,5 +98,21 @@ QString SDailyReplenishEO::calcRemoveCount(const SProductState* pProductState, i
     {
         return ZERO_COUNT;
     }
+}
+
+QString SDailyReplenishEO::calcShortCount(const SProductState* pProductState)
+{
+    if (pProductState->sOnlineState == GOOD_ONLINET_STATE)
+    {
+        return QString::number(pProductState->sRemoveNum.toInt() - pProductState->nCanUsed);
+    }
+    else
+    {
+        if (pProductState->sRemoveNum == ZERO_COUNT)
+        {
+            return ZERO_COUNT;
+        }
+    }
+    return "";
 }
 

@@ -26,6 +26,7 @@ private:
     void initUI();
     void initConnect();
     void hintInfo(const QString& sErrorInfo);
+    QString defaultDestDir();
 
 private:
     QLabel *m_pSourceDirLbl, *m_pDestDirLbl, *m_pCalcCircleLbl, *m_pRemoveNumLbl;

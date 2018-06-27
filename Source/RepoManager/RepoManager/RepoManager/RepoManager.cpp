@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDirIterator>
+#include <QStandardPaths>
 #include "SCalcRepoService.h"
 
 RepoManager::RepoManager(QWidget *parent)
@@ -32,7 +33,7 @@ void RepoManager::initUI()
     m_pSourceDirBtn->setCursor(Qt::PointingHandCursor);
 
     m_pDestDirLbl = new QLabel(QStringLiteral("目标文件夹："));
-    m_pDestDirEdt = new QLineEdit;
+    m_pDestDirEdt = new QLineEdit(defaultDestDir());
     m_pDestDirBtn = new QPushButton(QStringLiteral("选择"));
     m_pDestDirBtn->setIcon(QIcon(":/RepoManager/Iimport.ico"));
     m_pDestDirBtn->setCursor(Qt::PointingHandCursor);
@@ -80,7 +81,7 @@ void RepoManager::initConnect()
 void RepoManager::resetSetting()
 {
     m_pSourceDirEdt->clear();
-    m_pDestDirEdt->clear();
+    m_pDestDirEdt->setText(defaultDestDir());
     m_pCalcCircleEdt->setText("3");
     m_pRemoveNumEdt->setText("5");
 }
@@ -184,4 +185,12 @@ void RepoManager::beginCalcRepo()
 void RepoManager::hintInfo(const QString& sErrorInfo)
 {
     QMessageBox::information(this, QStringLiteral("提示"), sErrorInfo);
+}
+
+QString RepoManager::defaultDestDir()
+{
+    QString sDefaultDestDir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + QStringLiteral("/库存管理/");
+    if (!QDir(sDefaultDestDir).exists())
+        QDir().mkdir(sDefaultDestDir);
+    return sDefaultDestDir ;
 }

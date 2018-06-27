@@ -17,6 +17,7 @@ struct SProductState
     QString sSaleNum;
     QString sRequireNum;
     QString sRemoveNum;
+    QString sShortNum;
 };
 
 struct ReplenishContext
@@ -42,6 +43,7 @@ private:
     QString calcSaleCount(const QString& sBarCode);
     QString calcRequireCount(const QString& sSaleCount, int nCalcCircleCount);
     QString calcRemoveCount(const SProductState* pProductState, int nRemoveCount);
+    QString calcShortCount(const SProductState* pProductState);
 
 private:
     SSaleGoods* m_pSaleGoods;
