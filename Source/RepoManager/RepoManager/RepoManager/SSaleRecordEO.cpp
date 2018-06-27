@@ -64,16 +64,16 @@ void SSaleRecordEO::fillSaleInfos(const SColumnOrders& oColOrders, const SSource
     {
         QStringList oRecords = *pIter;
         SSaleInfo* pSaleInfo = new SSaleInfo;
-        pSaleInfo->sOrderNum = oRecords.at(0);
-        pSaleInfo->sTitile = oRecords.at(1);
-        pSaleInfo->sPrice = oRecords.at(2);
-        pSaleInfo->sBuyNum = oRecords.at(3);
-        pSaleInfo->sSystemNum = oRecords.at(4);
-        pSaleInfo->sProperty = oRecords.at(5);
-        pSaleInfo->sTCInfo = oRecords.at(6);
-        pSaleInfo->sRemark = oRecords.at(7);
-        pSaleInfo->sState = oRecords.at(8);
-        pSaleInfo->sSellerNum = oRecords.at(9);
+        pSaleInfo->sOrderNum = oRecords.at(oColOrders.at(0));
+        pSaleInfo->sTitile = oRecords.at(oColOrders.at(1));
+        pSaleInfo->sPrice = oRecords.at(oColOrders.at(2));
+        pSaleInfo->sBuyNum = oRecords.at(oColOrders.at(3));
+        pSaleInfo->sSystemNum = oRecords.at(oColOrders.at(4));
+        pSaleInfo->sProperty = oRecords.at(oColOrders.at(5));
+        pSaleInfo->sTCInfo = oRecords.at(oColOrders.at(6));
+        pSaleInfo->sRemark = oRecords.at(oColOrders.at(7));
+        pSaleInfo->sState = oRecords.at(oColOrders.at(8));
+        pSaleInfo->sSellerNum = oRecords.at(oColOrders.at(9));
         m_pSaleRecords->push_back(pSaleInfo);
     }
 }

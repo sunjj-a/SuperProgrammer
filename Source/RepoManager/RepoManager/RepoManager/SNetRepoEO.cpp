@@ -43,21 +43,21 @@ void SNetRepoEO::fillNetRepoInfos(const SColumnOrders& oColOrders, const SSource
     {
         QStringList oRecords = pIter->toStringList();
         SNetRepoInfo* pNetRepoInfo = new SNetRepoInfo;
-        pNetRepoInfo->s000 = oRecords.at(0);
-        pNetRepoInfo->sBarCode = oRecords.at(1);
-        pNetRepoInfo->sGoodNum = oRecords.at(2);
-        pNetRepoInfo->nCanUsed = oRecords.at(3).toInt();
-        pNetRepoInfo->nCanMoved  = oRecords.at(4).toInt();
-        pNetRepoInfo->s005 = oRecords.at(5);
-        pNetRepoInfo->s006 = oRecords.at(6);
-        pNetRepoInfo->sSellerID  = oRecords.at(7).toInt();
-        pNetRepoInfo->sSellerName = oRecords.at(8);
-        pNetRepoInfo->s009 = oRecords.at(9);
-        pNetRepoInfo->s010 = oRecords.at(10);
-        pNetRepoInfo->s011 = oRecords.at(11);
-        pNetRepoInfo->s012 = oRecords.at(12);
-        pNetRepoInfo->s013 = oRecords.at(13);
-        pNetRepoInfo->s014 = oRecords.at(14);
+        pNetRepoInfo->s000 = oRecords.at(oColOrders.at(0));
+        pNetRepoInfo->sBarCode = oRecords.at(oColOrders.at(1));
+        pNetRepoInfo->sGoodNum = oRecords.at(oColOrders.at(2));
+        pNetRepoInfo->nCanUsed = oRecords.at(oColOrders.at(3)).toInt();
+        pNetRepoInfo->nCanMoved  = oRecords.at(oColOrders.at(4)).toInt();
+        pNetRepoInfo->s005 = oRecords.at(oColOrders.at(5));
+        pNetRepoInfo->s006 = oRecords.at(oColOrders.at(6));
+        pNetRepoInfo->sSellerID  = oRecords.at(oColOrders.at(7)).toInt();
+        pNetRepoInfo->sSellerName = oRecords.at(oColOrders.at(8));
+        pNetRepoInfo->s009 = oRecords.at(oColOrders.at(9));
+        pNetRepoInfo->s010 = oRecords.at(oColOrders.at(10));
+        pNetRepoInfo->s011 = oRecords.at(oColOrders.at(11));
+        pNetRepoInfo->s012 = oRecords.at(oColOrders.at(12));
+        pNetRepoInfo->s013 = oRecords.at(oColOrders.at(13));
+        pNetRepoInfo->s014 = oRecords.at(oColOrders.at(14));
         m_pNetRepoInfos->push_back(pNetRepoInfo);
     }
 }
