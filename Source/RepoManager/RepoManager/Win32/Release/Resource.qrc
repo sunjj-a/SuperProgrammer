@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>Calculator.ico</file>
+        <file>check.ico</file>
+        <file>import.ico</file>
+        <file>judge-hammer.ico</file>
+    </qresource>
+</RCC>

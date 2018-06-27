@@ -14,7 +14,8 @@ RepoManager::RepoManager(QWidget *parent)
 {
     initUI();
     initConnect();
-    setWindowTitle(QStringLiteral("Hello World"));
+    setWindowTitle(QStringLiteral("库存管理---她池专用"));
+    setWindowIcon(QIcon(":/RepoManager/Appication.ico"));
 }
 
 RepoManager::~RepoManager()
@@ -27,18 +28,26 @@ void RepoManager::initUI()
     m_pSourceDirLbl = new QLabel(QStringLiteral("原始文件夹："));
     m_pSourceDirEdt = new QLineEdit();
     m_pSourceDirBtn = new QPushButton(QStringLiteral("选择"));
+    m_pSourceDirBtn->setIcon(QIcon(":/RepoManager/Iimport.ico"));
+    m_pSourceDirBtn->setCursor(Qt::PointingHandCursor);
 
     m_pDestDirLbl = new QLabel(QStringLiteral("目标文件夹："));
     m_pDestDirEdt = new QLineEdit;
     m_pDestDirBtn = new QPushButton(QStringLiteral("选择"));
+    m_pDestDirBtn->setIcon(QIcon(":/RepoManager/Iimport.ico"));
+    m_pDestDirBtn->setCursor(Qt::PointingHandCursor);
 
     m_pCalcCircleLbl = new QLabel(QStringLiteral("需求量计算周期："));
     m_pCalcCircleEdt = new QLineEdit("3");
     m_pCalcRepoBtn = new QPushButton(QStringLiteral("计算"));
+    m_pCalcRepoBtn->setIcon(QIcon(":/RepoManager/Calculator.ico"));
+    m_pCalcRepoBtn->setCursor(Qt::PointingHandCursor);
 
     m_pRemoveNumLbl = new QLabel(QStringLiteral("新款默认下架值："));
     m_pRemoveNumEdt = new QLineEdit("5");
     m_pResetBtn = new QPushButton(QStringLiteral("重置"));
+    m_pResetBtn->setIcon(QIcon(":/RepoManager/Reset.ico"));
+    m_pResetBtn->setCursor(Qt::PointingHandCursor);
 
     QGridLayout* pGridLayout = new QGridLayout;
     pGridLayout->addWidget(m_pSourceDirLbl, 1, 1, 1, 1);

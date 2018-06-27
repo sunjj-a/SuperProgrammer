@@ -1,4 +1,8 @@
 <RCC>
-    <qresource prefix="RepoManager">
+    <qresource prefix="/RepoManager">
+        <file>Appication.ico</file>
+        <file>Calculator.ico</file>
+        <file>Iimport.ico</file>
+        <file>Reset.ico</file>
     </qresource>
 </RCC>
