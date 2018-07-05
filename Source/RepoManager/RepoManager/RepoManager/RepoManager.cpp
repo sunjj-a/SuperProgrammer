@@ -15,7 +15,7 @@ RepoManager::RepoManager(QWidget *parent)
 {
     initUI();
     initConnect();
-    setWindowTitle(QStringLiteral("库存管理---她池专用"));
+    setWindowTitle(QStringLiteral("库存管理V2.0---她池专用"));
     setWindowIcon(QIcon(":/RepoManager/Appication.ico"));
 }
 
@@ -45,7 +45,7 @@ void RepoManager::initUI()
     m_pCalcRepoBtn->setCursor(Qt::PointingHandCursor);
 
     m_pRemoveNumLbl = new QLabel(QStringLiteral("新款默认下架值："));
-    m_pRemoveNumEdt = new QLineEdit("5");
+    m_pRemoveNumEdt = new QLineEdit("0");
     m_pResetBtn = new QPushButton(QStringLiteral("重置"));
     m_pResetBtn->setIcon(QIcon(":/RepoManager/Reset.ico"));
     m_pResetBtn->setCursor(Qt::PointingHandCursor);
@@ -83,7 +83,7 @@ void RepoManager::resetSetting()
     m_pSourceDirEdt->clear();
     m_pDestDirEdt->setText(defaultDestDir());
     m_pCalcCircleEdt->setText("3");
-    m_pRemoveNumEdt->setText("5");
+    m_pRemoveNumEdt->setText("0");
 }
 
 void RepoManager::selSourceDir()

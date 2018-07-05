@@ -40,6 +40,7 @@ void SDailyReplenishEO::calcDailyRepenish(const ReplenishContext& oReplenishCont
         pProductState->sRequireNum = calcRequireCount(pProductState->sSaleNum, oReplenishContext.nCalcCircleCount);
         pProductState->sRemoveNum = calcRemoveCount(pProductState, oReplenishContext.nRemoveCount);
         pProductState->sShortNum = calcShortCount(pProductState);
+        pProductState->sActualNum = calcActualCount(pProductState);
         m_pProductStates->push_back(pProductState);
     }
     qSort(m_pProductStates->begin(), m_pProductStates->end(), compareRemoveNum);
@@ -114,5 +115,12 @@ QString SDailyReplenishEO::calcShortCount(const SProductState* pProductState)
         }
     }
     return "";
+}
+
+QString SDailyReplenishEO::calcActualCount(const SProductState* pProductState)
+{
+    int nRemoveNum = pProductState->sRemoveNum.toInt();
+    int nCanMoved = pProductState->nCanMoved;
+    return (nRemoveNum > nCanMoved)? QString::number(nCanMoved) : QString::number(nRemoveNum);
 }
 

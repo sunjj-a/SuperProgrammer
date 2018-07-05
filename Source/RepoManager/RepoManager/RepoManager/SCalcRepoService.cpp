@@ -232,6 +232,7 @@ void SCalcRepoService::exportDailyReplenish(const SProductStates* pProductStates
     oXlsx.write(1, 7,  QStringLiteral("需求量"));
     oXlsx.write(1, 8,  QStringLiteral("下架值"));
     oXlsx.write(1, 9,  QStringLiteral("缺货量"));
+    oXlsx.write(1, 10,  QStringLiteral("实际留货量"));
 
     //设置标题头属性
     QXlsx::Format oHeaderFormat;                             
@@ -240,7 +241,7 @@ void SCalcRepoService::exportDailyReplenish(const SProductStates* pProductStates
     oHeaderFormat.setHorizontalAlignment(QXlsx::Format::AlignHCenter);    
     oHeaderFormat.setVerticalAlignment(QXlsx::Format::AlignVCenter);
     oXlsx.setRowFormat(1, oHeaderFormat);
-    oXlsx.setColumnWidth(1, 8, 16);
+    oXlsx.setColumnWidth(1, 10, 16);
     oXlsx.setRowHeight(1, 1, 30);
 
     //添加单元格内容
@@ -257,6 +258,7 @@ void SCalcRepoService::exportDailyReplenish(const SProductStates* pProductStates
         oXlsx.write(nRowIndex, 7, pProductState->sRequireNum);
         oXlsx.write(nRowIndex, 8, pProductState->sRemoveNum);
         oXlsx.write(nRowIndex, 9, pProductState->sShortNum);
+        oXlsx.write(nRowIndex, 10, pProductState->sActualNum);
         oXlsx.setRowFormat(nRowIndex, oHeaderFormat);
     }
 
